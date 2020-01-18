@@ -45,10 +45,9 @@ public class App {
             URL url = new URL("http://swquotesapi.digitaljedi.dk/api/SWQuote/RandomStarWarsQuote");
             HttpURLConnection swQuoteApi = (HttpURLConnection) url.openConnection();
             swQuoteApi.setRequestMethod("GET");
+
             BufferedReader input = new BufferedReader(new InputStreamReader(swQuoteApi.getInputStream()));
             StringBuilder internetQuoteBuilder = new StringBuilder();
-
-
 
             String firstLine = input.readLine();
             String secondLine = firstLine + 1;
@@ -73,6 +72,9 @@ public class App {
             insertToJSON.close();
 
             result = "Online: " + quoteArray.starWarsQuote;
+
+            System.out.println(internetQuoteBuilder);
+            System.out.println(input.readLine());
 
             return result;
 
