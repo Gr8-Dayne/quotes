@@ -1,24 +1,20 @@
 package quotes;
 
 public class Quote {
-     String text;
-     String author;
-     String starWarsQuote;
-     int id;
 
-//    public QuoteFromAuthor(String text, String author) {
-//        this.text = text;
-//        this.author = author;
-//    }
+    int id;
+    String starWarsQuote;
+    String text;
+    String author;
 
-//    public QuoteFromStarWars(int id, String starWarsQuote) {
-//        this.id = id;
-//        this.starWarsQuote = starWarsQuote;
-//    }
-
+    public Quote(int id, String starWarsQuote, String author) {
+        this.id = id;
+        this.starWarsQuote = starWarsQuote;
+        this.author = author;
+    }
 }
 
-
+// Class demo code:
 
 //public class Cat {
 //    String name;
