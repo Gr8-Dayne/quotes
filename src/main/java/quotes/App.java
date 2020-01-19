@@ -11,12 +11,12 @@ import java.util.Scanner;
 public class App {
 
     public static void main(String[] args) throws IOException {
-        System.out.println(getQuoteFromInternet());
+        System.out.println(getFormattedAPIQuote());
         // System.out.println(getAuthorQuote());
     }
 
     // Local storage potent quotables
-    public static String getAuthorQuote() {
+    public static String getLocalAuthorQuote() {
         Gson gsonDerulo = new Gson();
         int randomNumber = (int) (Math.random() * (138 + 1));
         String result = "";
@@ -37,27 +37,63 @@ public class App {
         return result;
     }
 
-    // The following code block was inspired by the class demo on 1/17/2020
-    public static String getQuoteFromInternet() {
+    // Download all Star Wars Quotes for offline use
+    public static String getAllStarWarsAPIInfo() throws IOException {
+
+        URL url = new URL("http://swquotesapi.digitaljedi.dk/api/SWQuote/");
+        HttpURLConnection swQuoteApi = (HttpURLConnection) url.openConnection();
+        swQuoteApi.setRequestMethod("GET");
+
+        BufferedReader input = new BufferedReader(new InputStreamReader(swQuoteApi.getInputStream()));
+
+        return input.readLine();
+
+    }
+
+    public static String getQuoteFromStarWarsAPI() throws IOException {
+
+        URL url = new URL("http://swquotesapi.digitaljedi.dk/api/SWQuote/RandomStarWarsQuote");
+        HttpURLConnection swQuoteApi = (HttpURLConnection) url.openConnection();
+        swQuoteApi.setRequestMethod("GET");
+
+        BufferedReader input = new BufferedReader(new InputStreamReader(swQuoteApi.getInputStream()));
+
+        return input.readLine();
+
+    }
+
+    public static String getFormattedAPIQuote() {
         try {
+
             Gson gsonDerulo = new Gson();
+
             String result = "";
-            URL url = new URL("http://swquotesapi.digitaljedi.dk/api/SWQuote/RandomStarWarsQuote");
-            HttpURLConnection swQuoteApi = (HttpURLConnection) url.openConnection();
-            swQuoteApi.setRequestMethod("GET");
-
-            BufferedReader input = new BufferedReader(new InputStreamReader(swQuoteApi.getInputStream()));
             StringBuilder internetQuoteBuilder = new StringBuilder();
+            
+            
 
-            String firstLine = input.readLine();
-            String secondLine = firstLine + 1;
+            String firstLine = getQuoteFromStarWarsAPI();
+//            String secondLine = firstLine + 1;
 
-            while (firstLine != null) {
-                internetQuoteBuilder.append(firstLine);
-                firstLine = input.readLine();
-            }
+//            System.out.println("Pre while loop");
+
+//            while (firstLine != null) {
+            internetQuoteBuilder.append(firstLine);
+//                firstLine = getQuoteFromStarWarsAPI();
+//            }
+
+//            System.out.println("Post while loop");
+            
+            
 
             Quote quoteArray = gsonDerulo.fromJson(String.valueOf(internetQuoteBuilder), Quote.class);
+
+            System.out.println(quoteArray.id);
+            System.out.println(quoteArray.starWarsQuote);
+            System.out.println(quoteArray.author);
+
+            Quote starWarsQuote = new Quote(quoteArray.id, quoteArray.starWarsQuote, quoteArray.author);
+
             String quoteString = "ID: " + quoteArray.id + ", Quote: " + quoteArray.starWarsQuote;
 
             //  File creation
@@ -68,19 +104,17 @@ public class App {
             // BufferedFileWriter appendToFile;
             insertToJSON = new FileWriter("src/main/resources/starwarsquotes.json");
             // appendToFile = new BufferedFileWriter("src/main/resources/starwarsquotes.json");
-            gsonDerulo.toJson(quoteString, insertToJSON);
+            gsonDerulo.toJson(starWarsQuote, insertToJSON);
             insertToJSON.close();
 
-            result = "Online: " + quoteArray.starWarsQuote;
-
-            System.out.println(internetQuoteBuilder);
-            System.out.println(input.readLine());
+            result = "Online: " + quoteString;
 
             return result;
 
         } catch (IOException e) {
+            System.out.println("catch triggered!");
             e.printStackTrace();
-            String result = "Hi";
+            String result = "I find your lack of functionality disturbing. -This code's author";
             return result;
         }
     }

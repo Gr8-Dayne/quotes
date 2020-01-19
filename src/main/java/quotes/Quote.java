@@ -2,22 +2,21 @@ package quotes;
 
 public class Quote {
 
-     String text;
-     String author;
-     String starWarsQuote;
-     int id;
+    int id;
+    String starWarsQuote;
+    String text;
+    String author;
 
-    public Quote(String text, String author, String starWarsQuote, int id) {
-        this.text = text;
+    public Quote(int id, String starWarsQuote, String author) {
+        this.id = id;
+        this.starWarsQuote = starWarsQuote;
         this.author = author;
-        this.starWarsQuote = starWarsQuote;
-        this.id = id;
     }
 
-    public void starWarsQuote(int id, String starWarsQuote) {
-        this.id = id;
-        this.starWarsQuote = starWarsQuote;
-    }
+//    public void starWarsQuote(int id, String starWarsQuote) {
+//        this.id = id;
+//        this.starWarsQuote = starWarsQuote;
+//    }
 
 }
 
