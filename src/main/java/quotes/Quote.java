@@ -12,15 +12,9 @@ public class Quote {
         this.starWarsQuote = starWarsQuote;
         this.author = author;
     }
-
-//    public void starWarsQuote(int id, String starWarsQuote) {
-//        this.id = id;
-//        this.starWarsQuote = starWarsQuote;
-//    }
-
 }
 
-
+// Class demo code:
 
 //public class Cat {
 //    String name;
